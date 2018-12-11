@@ -1,0 +1,24 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.*.local
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> symfony/web-server-bundle ###
+/.web-server-pid
+###< symfony/web-server-bundle ###
+.idea/deployment.xml
+.idea/encodings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/php.xml
+.idea/techNews.iml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/dataSources.local.xml
+.idea/dataSources.xml
+.idea/dataSources/f4774371-f8a7-4e7b-8c63-33249a4cff30.xml
+.idea/dataSources.xml

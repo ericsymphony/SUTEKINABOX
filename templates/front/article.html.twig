@@ -1,0 +1,76 @@
+{% extends "layout.html.twig" %}
+
+{% set active = article.categorie.slug %}
+
+{% block page_title %}
+    {{ article.titre }}
+{% endblock %}
+
+{% block content %}
+
+    {#{{ dump(article) }}#}
+    {#{{ dump(article.membre.prenom) }}#}
+    {#{{ dump(article.categorie.nom) }}#}
+
+    <div class="row">
+        <!--colleft-->
+        <div class="col-md-8 col-sm-12">
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <!--post-detail-->
+            <article class="post-detail">
+                <h1>{{ article.titre }}</h1>
+                <div class="meta-post">
+                    <a href="#">
+                        {{ article.membre.prenom ~ ' ' ~ article.membre.nom }}
+                    </a>
+                    <em></em>
+                    <span>
+                        {{ article.datecreation | date('d/m/Y') }}
+                    </span>
+                </div>
+
+                <img alt="{{ article.titre }}"
+                     src="{{ asset('images/product/'~article.featuredimage) }}"/>
+
+                {{ article.contenu | raw }}
+
+                <h5 class="text-right font-heading">
+                    <strong>
+                        {{ article.membre.prenom ~ ' ' ~ article.membre.nom }}
+                    </strong>
+                </h5>
+
+            </article>
+            <!--social-detail-->
+            <div class="social-detail">
+                <span>Partager notre article</span>
+                {% include 'components/_social-detail.html.twig' %}
+            </div>
+
+            {% if suggestions is not empty %}
+                <div class="detail-caption">
+                    <span>SUGGESTIONS</span>
+                </div>
+                <section class="spotlight-thumbs spotlight-thumbs-related">
+                    <div class="row">
+                        {% for article in suggestions %}
+                            {% include 'components/_suggestions.html.twig' %}
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endif %}
+
+        </div>
+        {#{% include 'components/_sidebar.html.twig' %}#}
+        {{ render(controller('App\\Controller\\TechNews\\FrontController::sidebar', {
+            'article' : article
+        })) }}
+    </div>
+{% endblock %}
+

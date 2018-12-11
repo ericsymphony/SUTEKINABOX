@@ -1,0 +1,139 @@
+{#{{ dump(articles) }}#}
+{#{{ dump(categories) }}#}
+
+<!--colright-->
+<div class="col-md-4 col-sm-12">
+
+    {%  if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        <h3 class="text-center">
+            Bonjour {{ app.user.prenom }}
+        </h3>
+
+        <h4 class="text-center">
+            Dernière connexion: {{ app.user.derniereConnexion }}
+        </h4>
+
+        <h4 class="text-center">
+
+            {% if is_granted('ROLE_ADMIN') %}
+                Administrateur
+            {% elseif is_granted('ROLE_AUTEUR') %}
+                Auteur
+            {% else %}
+                Membre
+            {% endif %}
+
+        </h4>
+
+        <ul class="list-group">
+            {% if article is defined
+                and article
+                and (article.isAuteur(app.user) and is_granted('ROLE_AUTEUR'))
+            %}
+
+                <li class="list-group-item">
+                    <a href="{{ path('article_edit',{'id':article.id}) }}">
+                        Editer un article
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_AUTEUR') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Rédiger un article
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_MARKETING') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Définir produits d'une box
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ACHAT') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Commander produit(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Réceptionner produit(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Conformiter produit(s)
+                    </a>
+                </li>
+
+            {% endif %}
+
+            {% if is_granted('ROLE_EXPEDITION') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Conditionner produits
+                    </a>
+                </li>
+
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Expédier box
+                    </a>
+                </li>
+
+            {% endif %}
+
+            {% if is_granted('ROLE_DIRECTION') %}
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Définir produits d'une box
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Commander produit(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Réceptionner produit(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Conformiter produit(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Conditionner produits
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('article_new') }}">
+                        Expédier box
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="list-group-item">
+                <a href="{{ path('security_deconnexion') }}">
+                    Déconnexion
+                </a>
+            </li>
+        </ul>
+
+    {% endif %}
+
+
+
+
+
+
+</div>
