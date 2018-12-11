@@ -1,0 +1,44 @@
+{% extends "layout.html.twig" %}
+
+{% set active = fournisseur %}
+
+{% block page_title %}
+    {{ fournisseur.nom }}
+{% endblock %}
+
+{% block content %}
+
+    {#{{ dump(article) }}#}
+    {#{{ dump(article.membre.prenom) }}#}
+    {#{{ dump(article.categorie.nom) }}#}
+
+    <div class="row">
+        <!--colleft-->
+        <div class="col-md-8 col-sm-12">
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-info">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <!--post-detail-->
+            <article class="post-detail">
+                <h1>{{ fournisseur.nom }}</h1>
+                <div class="meta-post">
+                    <a href="#">
+                        {{ fournisseur.membre.prenom ~ ' ' ~ fournisseur.membre.nom }}
+                    </a>
+                    <em></em>
+                </div>
+
+            </article>
+
+        </div>
+        {#{% include 'components/_sidebar.html.twig' %}#}
+        {{ render(controller('App\\Controller\\TechNews\\FrontController::sidebar', {
+            'article' : article
+        })) }}
+    </div>
+{% endblock %}
+

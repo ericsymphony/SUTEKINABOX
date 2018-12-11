@@ -87,5 +87,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="dropify" level="application" />
     <orderEntry type="library" name="bootstrap-toggle" level="application" />
+    <orderEntry type="library" name="html5shiv" level="application" />
+    <orderEntry type="library" name="respond" level="application" />
   </component>
 </module>

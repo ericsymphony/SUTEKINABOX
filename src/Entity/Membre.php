@@ -83,6 +83,26 @@ class Membre implements UserInterface
     private $articles;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Produit",
+     *     mappedBy="membre")
+     */
+    private $produits;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fournisseur",
+     *     mappedBy="membre")
+     */
+    private $fournisseur;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Box",
+     *     mappedBy="membre")
+     */
+    private $box;
+
+
+
+    /**
      * @ORM\Column(type="array")
      */
     private $roles = [];

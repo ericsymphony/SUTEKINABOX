@@ -6,6 +6,7 @@ namespace App\Controller\TechNews;
 use App\Article\Provider\YamlProvider;
 use App\Entity\Article;
 use App\Entity\Categorie;
+use App\Entity\Fournisseur;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -132,6 +133,51 @@ class FrontController extends Controller
         return $this->render('front/article.html.twig', [
             'article' => $article,
             'suggestions' => $suggestions
+        ]);
+    }
+
+    /**
+     * Afficher un Fournisseur
+     * @Route("/afficher-un-fournisseur.html.twig",
+     *     name="index_fournisseur")
+     * @param $id
+     * @param $nom
+     * @param Fournisseur $fournisseur
+     * @return Response
+     */
+    public function afficherFournisseur($id, $nom, Fournisseur $fournisseur = null)
+    {
+        # Exemple d'URL
+        # politique/les-gilets-jaunes-mettent-le-feu-a-l-elysee_684651.html
+
+        # $article = $this->getDoctrine()
+        #     ->getRepository(Article::class)
+        #     ->find($id);
+
+        # On s'assure que l'article ne soit pas null.
+        if (null === $fournisseur) {
+
+            # On génère une exception
+            # throw $this->createNotFoundException(
+            #     "Nous n'avons pas trouvé votre article ID : " . $id
+            # );
+
+            # Ou, on redirige l'utilisateur sur la page d'accueil
+            return $this->redirectToRoute('index', [],
+                Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        # Vérification du SLUG
+        if ($fournisseur->getNom() !== $nom) {
+            return $this->redirectToRoute('index_fournisseur', [
+                'fournisseur' => $fournisseur->getNom(),
+                'id' => $id
+            ]);
+        }
+
+        # Transmission des données à la vue
+        return $this->render('front/fournisseur.html.twig', [
+            'fournisseur' => $fournisseur
         ]);
     }
 
