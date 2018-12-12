@@ -20,6 +20,12 @@
                 Administrateur
             {% elseif is_granted('ROLE_AUTEUR') %}
                 Auteur
+            {% elseif is_granted('ROLE_MARKETING') %}
+                Marketing
+            {% elseif is_granted('ROLE_ACHAT') %}
+                Achat
+            {% elseif is_granted('ROLE_EXPEDITION') %}
+                Expédition
             {% else %}
                 Membre
             {% endif %}
@@ -49,6 +55,11 @@
 
             {% if is_granted('ROLE_MARKETING') %}
                 <li class="list-group-item">
+                    <a href="{{ path('box_new') }}">
+                        Créer box(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
                     <a href="{{ path('article_new') }}">
                         Définir produits d'une box
                     </a>
@@ -56,6 +67,16 @@
             {% endif %}
 
             {% if is_granted('ROLE_ACHAT') %}
+                <li class="list-group-item">
+                    <a href="{{ path('fournisseur_new') }}">
+                        Créer fournisseur(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('produit_new') }}">
+                        Créer produit(s)
+                    </a>
+                </li>
                 <li class="list-group-item">
                     <a href="{{ path('article_new') }}">
                         Commander produit(s)
@@ -90,6 +111,16 @@
             {% endif %}
 
             {% if is_granted('ROLE_DIRECTION') %}
+                <li class="list-group-item">
+                    <a href="{{ path('fournisseur_new') }}">
+                        Créer fournisseur(s)
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a href="{{ path('produit_new') }}">
+                        Créer produit(s)
+                    </a>
+                </li>
                 <li class="list-group-item">
                     <a href="{{ path('article_new') }}">
                         Définir produits d'une box

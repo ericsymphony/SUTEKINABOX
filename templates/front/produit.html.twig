@@ -1,9 +1,9 @@
 {% extends "layout.html.twig" %}
 
-{% set active = fournisseur %}
+{% set active = produit %}
 
 {% block page_title %}
-    {{ fournisseur.nom }}
+    {{ produit.nom }}
 {% endblock %}
 
 {% block content %}
@@ -24,10 +24,10 @@
 
             <!--post-detail-->
             <article class="post-detail">
-                <h1>{{ fournisseur.nom }}</h1>
+                <h1>{{ produit.nom }}</h1>
                 <div class="meta-post">
                     <a href="#">
-                        {{ fournisseur.membre.prenom ~ ' ' ~ fournisseur.membre.nom }}
+                        {{ produit.membre.prenom ~ ' ' ~ produit.membre.nom }}
                     </a>
                     <em></em>
                 </div>
@@ -37,7 +37,7 @@
         </div>
         {#{% include 'components/_sidebar.html.twig' %}#}
         {{ render(controller('App\\Controller\\TechNews\\FrontController::sidebar', {
-            'fournisseur' : fournisseur
+            'produit' : produit
         })) }}
     </div>
 {% endblock %}

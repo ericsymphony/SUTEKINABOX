@@ -8,11 +8,11 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Box
 {
@@ -34,26 +34,19 @@ class Box
     private $slug;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie",
+     *     inversedBy="boxs")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Vous devez choisir une catégoriew")
+     */
+    private $categorie;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Produit",
      *     mappedBy="box")
+     * * @ORM\JoinColumn(nullable=true)
      */
     private $produits;
-
-    /**
-     * @return mixed
-     */
-    public function getMembre()
-    {
-        return $this->membre;
-    }
-
-    /**
-     * @param mixed $membre
-     */
-    public function setMembre($membre): void
-    {
-        $this->membre = $membre;
-    }
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Membre",
@@ -63,11 +56,17 @@ class Box
     private $membre;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreation;
+
+    /**
      * Categorie constructor.
      */
     public function __construct()
     {
-        $this->produits = new ArrayCollection();
+        #$this->produits = new ArrayCollection();
+        $this->dateCreation = new \DateTime();
     }
 
     /**
@@ -85,6 +84,24 @@ class Box
     {
         $this->id = $id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * @param mixed $categorie
+     */
+    public function setCategorie($categorie): void
+    {
+        $this->categorie = $categorie;
+    }
+
+
 
     /**
      * @return mixed
@@ -132,6 +149,34 @@ class Box
     public function setProduits($produits): void
     {
         $this->produits = $produits;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMembre()
+    {
+        return $this->membre;
+    }
+
+    /**
+     * @param mixed $membre
+     */
+    public function setMembre($membre): void
+    {
+        $this->membre = $membre;
+    }
+
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
     }
 
 

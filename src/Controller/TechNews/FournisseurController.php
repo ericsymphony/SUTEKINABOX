@@ -21,9 +21,9 @@ class FournisseurController extends Controller
 
     /**
      * Formulaire pour ajouter un Fournisseur
-     * @Route("/creer-un-fournisseur.html.twig",
+     * @Route("/creer-un-fournisseur",
      *     name="fournisseur_new")
-     * @Security("has_role('ROLE_AUTEUR')")
+     * @Security("has_role('ROLE_ACHAT')")
      * @param Request $request
      * @return Response
      */
@@ -49,6 +49,9 @@ class FournisseurController extends Controller
         # Si le formulaire est soumis et qu'il est valide
         if( $form->isSubmitted() && $form->isValid() ) {
 
+            # 2. Mise à jour du Slug
+            $fournisseur->setSlug($this->slugify($fournisseur->getNom()));
+
             # 3. Sauvegarde en BDD
             $em = $this->getDoctrine()->getManager();
             $em->persist($fournisseur);
@@ -56,10 +59,12 @@ class FournisseurController extends Controller
 
             # 4. Notification
             $this->addFlash('notice',
-                'Félicitation, votre fournisseur est créé !');
+                'Félicitation, ce fournisseur est créé !');
 
             # 5. Redirection vers l'article créé
             return $this->redirectToRoute('index_fournisseur', [
+                'categorie' => $fournisseur->getCategorie()->getSlug(),
+                'slug' => $fournisseur->getSlug(),
                 'id' => $fournisseur->getId()
             ]);
 

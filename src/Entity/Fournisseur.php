@@ -8,7 +8,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -25,16 +24,29 @@ class Fournisseur
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie",
+     *     inversedBy="fournisseurs")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Vous devez choisir une catégoriew")
+     */
+    private $categorie;
+
+    /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(message="Saisissez le nom du fournisseur.html.twig")
-     * @Assert\Length(max="50",maxMessage="Le nom du fournisseur.html.twig est tres long")
+     * @Assert\NotBlank(message="Saisissez le nom du fournisseur")
+     * @Assert\Length(max="50",maxMessage="Le nom du fournisseur est tres long")
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Saisissez l'adresse du fournisseur.html.twig")
-     * @Assert\Length(max="50", maxMessage="L'adresse fournisseur.html.twig est tres long, limites characters {{ limit }}")
+     * @Assert\Length(max="50", maxMessage="L'adresse fournisseur est tres long, limites characters {{ limit }}")
      */
     private $adresse;
 
@@ -46,9 +58,22 @@ class Fournisseur
      */
     private $membre;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Produit",
+     *     mappedBy="fournisseur")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $produits;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreation;
+
     public function __construct()
     {
-
+        #$this->produits = new ArrayCollection();
+        $this->dateCreation = new \DateTime();
     }
     /**
      * @return mixed
@@ -64,6 +89,54 @@ class Fournisseur
     public function setId($id): void
     {
         $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param mixed $slug
+     */
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * @param mixed $categorie
+     */
+    public function setCategorie($categorie): void
+    {
+        $this->categorie = $categorie;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProduits()
+    {
+        return $this->produits;
+    }
+
+    /**
+     * @param mixed $produits
+     */
+    public function setProduits($produits): void
+    {
+        $this->produits = $produits;
     }
 
     /**
@@ -114,6 +187,15 @@ class Fournisseur
         $this->membre = $membre;
     }
 
+    public function getDateCreation(): ?\DateTimeInterface
+    {
+        return $this->dateCreation;
+    }
 
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
 
+        return $this;
+    }
 }

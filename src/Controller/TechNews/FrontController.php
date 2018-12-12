@@ -5,12 +5,14 @@ namespace App\Controller\TechNews;
 
 use App\Article\Provider\YamlProvider;
 use App\Entity\Article;
+use App\Entity\Box;
 use App\Entity\Categorie;
 use App\Entity\Fournisseur;
+use App\Entity\Produit;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Yaml\Tests\A;
+
 
 class FrontController extends Controller
 {
@@ -137,15 +139,19 @@ class FrontController extends Controller
     }
 
     /**
-     * Afficher un Fournisseur
-     * @Route("/afficher-un-fournisseur.html.twig",
-     *     name="index_fournisseur")
-     * @param $id
-     * @param $nom
-     * @param Fournisseur $fournisseur
-     * @return Response
-     */
-    public function afficherFournisseur($id, $nom, Fournisseur $fournisseur = null)
+ * Afficher un Fournisseur
+ * @Route("/{categorie<\w+>}/{slug<[a-zA-Z1-9\-_\/]+>}_{id<\d+>}.html",
+ *     name="index_fournisseur")
+ * @param $id
+ * @param $slug
+ * @param $categorie
+ * @param Fournisseur $fournisseur
+ * @return Response
+ */
+    public function fournisseur($id,
+                                $slug,
+                                $categorie,
+                                Fournisseur $fournisseur = null)
     {
         # Exemple d'URL
         # politique/les-gilets-jaunes-mettent-le-feu-a-l-elysee_684651.html
@@ -168,16 +174,138 @@ class FrontController extends Controller
         }
 
         # Vérification du SLUG
-        if ($fournisseur->getNom() !== $nom) {
+        if ($fournisseur->getSlug() !== $slug
+            || $fournisseur->getCategorie()->getSlug() !== $categorie) {
             return $this->redirectToRoute('index_fournisseur', [
-                'fournisseur' => $fournisseur->getNom(),
+                'categorie' => $fournisseur->getCategorie()->getSlug(),
+                'slug' => $fournisseur->getSlug(),
                 'id' => $id
             ]);
         }
 
+        # Récupération des suggestions
+        #$suggestions = $this->getDoctrine()
+        #    ->getRepository(Fournisseur::class);
+        #->findArticlesSuggestions($article->getId(), $article->getCategorie()->getId());
+
         # Transmission des données à la vue
         return $this->render('front/fournisseur.html.twig', [
             'fournisseur' => $fournisseur
+            #'suggestions' => $suggestions
+        ]);
+    }
+
+    /**
+     * Afficher une Box
+     * @Route("/{categorie<\w+>}/{slug<[a-zA-Z1-9\-_\/]+>}_{id<\d+>}.html",
+     *     name="index_box")
+     * @param $id
+     * @param $slug
+     * @param $categorie
+     * @param Box $box
+     * @return Response
+     */
+    public function box($id,
+                        $slug,
+                        $categorie,
+                        Box $box = null)
+    {
+        # Exemple d'URL
+        # politique/les-gilets-jaunes-mettent-le-feu-a-l-elysee_684651.html
+
+        # $article = $this->getDoctrine()
+        #     ->getRepository(Article::class)
+        #     ->find($id);
+
+        # On s'assure que l'article ne soit pas null.
+        if (null === $box) {
+
+            # On génère une exception
+            # throw $this->createNotFoundException(
+            #     "Nous n'avons pas trouvé votre article ID : " . $id
+            # );
+
+            # Ou, on redirige l'utilisateur sur la page d'accueil
+            return $this->redirectToRoute('index', [],
+                Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        # Vérification du SLUG
+        if ($box->getSlug() !== $slug
+            || $box->getCategorie()->getSlug() !== $categorie) {
+            return $this->redirectToRoute('index_box', [
+                'categorie' => $box->getCategorie()->getSlug(),
+                'slug' => $box->getSlug(),
+                'id' => $id
+            ]);
+        }
+
+        # Récupération des suggestions
+        #$suggestions = $this->getDoctrine()
+        #    ->getRepository(Box::class);
+        #->findArticlesSuggestions($article->getId(), $article->getCategorie()->getId());
+
+        # Transmission des données à la vue
+        return $this->render('front/box.html.twig', [
+            'box' => $box
+            #'suggestions' => $suggestions
+        ]);
+    }
+
+    /**
+     * Afficher un produit
+     * @Route("/{categorie<\w+>}/{slug<[a-zA-Z1-9\-_\/]+>}_{id<\d+>}.html",
+     *     name="index_produit")
+     * @param $id
+     * @param $slug
+     * @param $categorie
+     * @param Produit $produit
+     * @return Response
+     */
+    public function produit($id,
+                        $slug,
+                        $categorie,
+                        Produit $produit = null)
+    {
+        # Exemple d'URL
+        # politique/les-gilets-jaunes-mettent-le-feu-a-l-elysee_684651.html
+
+        # $article = $this->getDoctrine()
+        #     ->getRepository(Article::class)
+        #     ->find($id);
+
+        # On s'assure que l'article ne soit pas null.
+        if (null === $produit) {
+
+            # On génère une exception
+            # throw $this->createNotFoundException(
+            #     "Nous n'avons pas trouvé votre article ID : " . $id
+            # );
+
+            # Ou, on redirige l'utilisateur sur la page d'accueil
+            return $this->redirectToRoute('index', [],
+                Response::HTTP_MOVED_PERMANENTLY);
+        }
+
+        # Vérification du SLUG
+        if ($produit->getSlug() !== $slug
+            || $produit->getCategorie()->getSlug() !== $categorie) {
+            return $this->redirectToRoute('index_produit', [
+                'categorie' => $produit->getCategorie()->getSlug(),
+                'slug' => $produit->getSlug(),
+                'id' => $id
+            ]);
+        }
+
+        # Récupération des suggestions
+        #$suggestions = $this->getDoctrine()
+        #    ->getRepository(Produit::class);
+        #->findArticlesSuggestions($article->getId(), $article->getCategorie()->getId());
+
+        # Transmission des données à la vue
+        return $this->render('front/produit.html.twig', [
+            'produit' => $produit
+            #'suggestions' => $suggestions
         ]);
     }
 

@@ -9,7 +9,9 @@
 namespace App\Fournisseur;
 
 
+use App\Entity\Categorie;
 use App\Entity\Fournisseur;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -34,6 +36,15 @@ class FournisseurType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Saisissez l\'adresse du Fournisseur'
                 ]
+            ])
+
+            # Champ Catégorie
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false,
+                'label' => false
             ])
 
 

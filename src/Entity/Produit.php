@@ -29,6 +29,14 @@ class Produit
     private $slug;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie",
+     *     inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotNull(message="Vous devez choisir une catégoriew")
+     */
+    private $categorie;
+
+    /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Vous devez saisir une référence.")
      * @Assert\Length(
@@ -42,7 +50,7 @@ class Produit
      * @ORM\Column(type="string", length=25)
      * @Assert\NotBlank(message="Vous devez saisir le nom du produit.")
      * @Assert\Length(
-     *     max="25",
+     *     max="50",
      *     maxMessage="Votre nom ne doit pas dépasser {{ limit }} caractères  "
      * )
      */
@@ -66,17 +74,19 @@ class Produit
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Fournisseur",
      *     inversedBy="produits")
-     * @ORM\JoinColumn(nullable=false)
-     * @Assert\NotNull(message="Vous devez choisir un fournisseur.html.twig")
+     * @ORM\JoinColumn(nullable=true)
+     * @Assert\NotNull(message="Vous devez choisir un fournisseur")
      */
     private $fournisseur;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Box",
      *     inversedBy="produits")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $box;
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Membre",
@@ -85,26 +95,14 @@ class Produit
      */
     private $membre;
 
-    /**
-     * @return mixed
-     */
-    public function getMembre()
-    {
-        return $this->membre;
-    }
-
-    /**
-     * @param mixed $membre
-     */
-    public function setMembre($membre): void
-    {
-        $this->membre = $membre;
-    }
-
     public function __construct()
     {
         $this->dateCreation = new \DateTime();
     }
+
+
+
+
 
     /**
      * @return mixed
@@ -137,6 +135,24 @@ class Produit
     {
         $this->slug = $slug;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+    /**
+     * @param mixed $categorie
+     */
+    public function setCategorie($categorie): void
+    {
+        $this->categorie = $categorie;
+    }
+
+
 
     /**
      * @return mixed
@@ -186,20 +202,16 @@ class Produit
         $this->prix = $prix;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDateCreation()
+    public function getDateCreation(): ?\DateTimeInterface
     {
         return $this->dateCreation;
     }
 
-    /**
-     * @param mixed $dateCreation
-     */
-    public function setDateCreation($dateCreation): void
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
     {
         $this->dateCreation = $dateCreation;
+
+        return $this;
     }
 
     /**
@@ -232,6 +244,22 @@ class Produit
     public function setBox($box): void
     {
         $this->box = $box;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMembre()
+    {
+        return $this->membre;
+    }
+
+    /**
+     * @param mixed $membre
+     */
+    public function setMembre($membre): void
+    {
+        $this->membre = $membre;
     }
 
 

@@ -9,11 +9,12 @@
 namespace App\Produit;
 
 
+use App\Entity\Box;
+use App\Entity\Categorie;
+use App\Entity\Fournisseur;
 use App\Entity\Produit;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -38,20 +39,42 @@ class ProduitType extends AbstractType
                     'placeholder' => 'Saisissez le nom du produit'
                 ]
             ])
-            ->add('prix', EmailType::class,[
+            ->add('prix', TextType::class,[
                 'label' => 'Saisissez le prix produit',
                 'attr' => [
                     'placeholder' => 'Saisissez le prix produit'
                 ]
             ])
-            ->add('fournisseur', PasswordType::class,[
-                'label' => 'Choisissez le fournisseur.html.twig du produit',
-                'attr' => [
-                    'placeholder' => 'Choisissez le fournisseur.html.twig du produit'
-                ]
+
+            # Champ Fournisseur
+            ->add('fournisseur', EntityType::class, [
+                'class' => Fournisseur::class,
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false,
+                'label' => false
             ])
+
+            # Champ Box
+            ->add('box', EntityType::class, [
+                'class' => Box::class,
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false,
+                'label' => false
+            ])
+
+            # Champ Catégorie
+            ->add('categorie', EntityType::class, [
+                'class' => Categorie::class,
+                'choice_label' => 'nom',
+                'expanded' => false,
+                'multiple' => false,
+                'label' => false
+            ])
+
             ->add('submit', SubmitType::class,[
-                'label' => "Valider la création du produit !"
+                'label' => 'Valider la création du produit !'
             ])
         ;
     }
@@ -60,7 +83,8 @@ class ProduitType extends AbstractType
     {
 
         $resolver->setDefaults([
-            'data_class' => Produit::class
+            'data_class' => Produit::class,
+            'image_url' => null
         ]);
 
     }

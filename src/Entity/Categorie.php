@@ -34,11 +34,35 @@ class Categorie
     private $articles;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Fournisseur",
+     *     mappedBy="categorie")
+     */
+    private $fournisseurs;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Produit",
+     *     mappedBy="categorie")
+     */
+    private $produits;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Box",
+     *     mappedBy="categorie")
+     */
+    private $boxs;
+
+
+    /**
      * Categorie constructor.
      */
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->fournisseurs = new ArrayCollection();
+        $this->produits = new ArrayCollection();
+        $this->boxs = new ArrayCollection();
     }
 
 
@@ -86,4 +110,54 @@ class Categorie
     {
         $this->articles = $articles;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFournisseurs()
+    {
+        return $this->fournisseurs;
+    }
+
+    /**
+     * @param mixed $fournisseurs
+     */
+    public function setFournisseurs($fournisseurs): void
+    {
+        $this->fournisseurs = $fournisseurs;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProduits()
+    {
+        return $this->produits;
+    }
+
+    /**
+     * @param mixed $produits
+     */
+    public function setProduits($produits): void
+    {
+        $this->produits = $produits;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBoxs()
+    {
+        return $this->boxs;
+    }
+
+    /**
+     * @param mixed $boxs
+     */
+    public function setBoxs($boxs): void
+    {
+        $this->boxs = $boxs;
+    }
+
+
 }
